@@ -51,10 +51,10 @@ if __name__ == "__main__":
     model = keras.Sequential([
         keras.Input(shape=args.input_shape), # Input Layer
         layers.Flatten(),
-        layers.Dense(8, activation="relu"), # Hidden Layers
-        layers.Dense(8, activation="relu"),
-        layers.Dense(8, activation="relu"),
-        layers.Dense(args.num_classes, activation="softmax") # Output Layer
+        layers.Dense(8, activation="relu", use_bias=False), # Hidden Layers
+        layers.Dense(8, activation="relu", use_bias=False),
+        layers.Dense(8, activation="relu", use_bias=False),
+        layers.Dense(args.num_classes, activation="softmax", use_bias=False) # Output Layer
     ])
     model.summary()
     
