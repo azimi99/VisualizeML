@@ -8,51 +8,19 @@
     <script src="jquery.min.js" type="text/javascript"></script>
   </head>
   <body>
-    <div>
-      <div class="hidden">
-        <div class="layer" style="text-align: center">
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-        </div>
-        <div class="layer" style="text-align: center">
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-        </div>
-        <div class="layer" style="text-align: center">
-          <span class="dot" style="background-color: black"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-        </div>
+    <div id="input-layer">
+        <canvas width="280px" height="280px" id="myCanvas">
+            Sorry, your browser does not support HTML5 canvas technology.
+        </canvas>
+        <button id="run">Run Model</button>
+    </div>
+
+    <div id="nn">
+      <div id="hidden" class="hidden">
+
       </div>
 
-      <div class="layer output" style="text-align: center">
-        <span class="dot" style="background-color: black">0</span>
-        <span class="dot">1</span>
-        <span class="dot">2</span>
-        <span class="dot">3</span>
-        <span class="dot">4</span>
-        <span class="dot">5</span>
-        <span class="dot">6</span>
-        <span class="dot">7</span>
-        <span class="dot">8</span>
-        <span class="dot">9</span>
+      <div id="output" class="layer output" style="text-align: center">
       </div>
     </div>
   </body>

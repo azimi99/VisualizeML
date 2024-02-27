@@ -39,9 +39,10 @@ if __name__ == "__main__":
     print(x_train.shape, x_test.shape)
     
     # One hot encode categories
-    
+    print(y_train[0:10])
     y_train = keras.utils.to_categorical(y_train, args.num_classes)
-    y_test = keras.utils.to_categorical(y_test, args.num_classes)
+    print(y_train[0:10])
+    # y_test = keras.utils.to_categorical(y_test, args.num_classes)
     
     print(y_train[0]) ## Look at sample label
     

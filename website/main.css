@@ -1,4 +1,3 @@
-canvas { border: solid 1px black }
 .dot {
     height: 25px;
     width: 25px;
@@ -25,4 +24,17 @@ canvas { border: solid 1px black }
 }
 .hidden .layer {
     margin-bottom: 80px;
+}
+
+
+
+body, html {
+	height: 100%;
+}
+
+
+#myCanvas {
+	cursor: crosshair;
+    display: inline;
+    border: solid 1px black
 }

@@ -16,11 +16,11 @@ if __name__ == "__main__":
     # print("Test accuracy:", score[1])
     model.summary()
     print(model.layers[1].get_weights()[0].shape)
-    # for i in range(1,5):
-    #     weights =  model.layers[i].get_weights()[0]
-    #     with open(f"layer_{i}", 'w') as file:
-    #         for row in weights:
-    #             # Convert each row to a string of comma-separated values, and add a comma at the end of the line
-    #             line = ','.join(map(str, row)) + ',\n'
-    #             file.write(line)
+    for i in range(1,5):
+        weights =  model.layers[i].get_weights()[0]
+        with open(f"layer_{i}", 'w') as file:
+            for row in weights:
+                # Convert each row to a string of comma-separated values, and add a comma at the end of the line
+                line = ','.join(map(str, row)) + ',\n'
+                file.write(line)
     
