@@ -109,11 +109,12 @@ myCanvas.addEventListener('mouseup', draw.end.bind(draw));
         return new Promise(resolve => setTimeout(resolve, time));
     }
 
-    function animate_layer(layer_num, layer_output){
+    async function animate_layer(layer_num, layer_output){
         for (let i = 0; i < layer_output.length; i++){
             if (layer_output[i] > 0) {
                 $(`#layer_${layer_num} > #n-${i}`).css('background-color', 'black');
                 $(`#layer_${layer_num} > #n-${i}`).css('color', 'white');
+                await delay(100);
                 // $(`#layer_${layer_num} > #n-${i}`).append('', `${layer_output[i]}`);
 
             }     
@@ -133,19 +134,19 @@ myCanvas.addEventListener('mouseup', draw.end.bind(draw));
     layer_1_out = nj.array(layer_1_out.tolist().map(v => (v > 0.0)? v:0.0)); // ReLU
     console.log(layer_1_out.tolist());
     // Animate Neurons For Layer 1
-    animate_layer(0, layer_1_out.tolist());
+    await animate_layer(0, layer_1_out.tolist());
     await delay(500);
     let layer_2_out = nj.dot(layer_2.T, layer_1_out);
     layer_2_out = nj.array(layer_2_out.tolist().map(v => (v > 0.0)? v:0.0));// ReLU
     console.log(layer_2_out.tolist());
     // Animate Neurons For layer 2
-    animate_layer(1, layer_2_out.tolist());
+    await animate_layer(1, layer_2_out.tolist());
     await delay(500);
     let layer_3_out = nj.dot(layer_3.T, layer_2_out);
     layer_3_out = nj.array(layer_3_out.tolist().map(v => (v > 0.0)? v:0.0)); // ReLU
     console.log(layer_3_out.tolist());
     // Animate Neurons for layer 3
-    animate_layer(2, layer_3_out.tolist());
+    await animate_layer(2, layer_3_out.tolist());
     await delay(500);
     let layer_4_out = nj.dot(layer_4.T, layer_3_out);
     layer_4_out = nj.exp(layer_4_out);
