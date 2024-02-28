@@ -39,12 +39,9 @@ if __name__ == "__main__":
     print(x_train.shape, x_test.shape)
     
     # One hot encode categories
-    print(y_train[0:10])
-    y_train = keras.utils.to_categorical(y_train, args.num_classes)
-    print(y_train[0:10])
-    # y_test = keras.utils.to_categorical(y_test, args.num_classes)
     
-    print(y_train[0]) ## Look at sample label
+    y_train = keras.utils.to_categorical(y_train, args.num_classes)
+    y_test = keras.utils.to_categorical(y_test, args.num_classes)
     
     
     ## Create Simple Sequential Model
@@ -52,9 +49,9 @@ if __name__ == "__main__":
     model = keras.Sequential([
         keras.Input(shape=args.input_shape), # Input Layer
         layers.Flatten(),
-        layers.Dense(8, activation="relu", use_bias=False), # Hidden Layers
-        layers.Dense(8, activation="relu", use_bias=False),
-        layers.Dense(8, activation="relu", use_bias=False),
+        layers.Dense(12, activation="relu", use_bias=False), # Hidden Layers
+        layers.Dense(12, activation="relu", use_bias=False),
+        layers.Dense(12, activation="relu", use_bias=False),
         layers.Dense(args.num_classes, activation="softmax", use_bias=False) # Output Layer
     ])
     model.summary()
