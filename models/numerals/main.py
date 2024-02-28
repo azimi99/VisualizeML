@@ -8,7 +8,7 @@ from dataclasses import dataclass
 class Args():
     visualize=True
     num_classes = 10
-    input_shape = (28, 28)
+    input_shape = (28, 28, 1)
     
     ## Training Params
     batch_length = 128
@@ -48,9 +48,9 @@ if __name__ == "__main__":
     
     model = keras.Sequential([
         keras.Input(shape=args.input_shape), # Input Layer
+        layers.Conv2D(5, kernel_size=(3,3), activation="relu", use_bias=False),
         layers.Flatten(),
         layers.Dense(12, activation="relu", use_bias=False), # Hidden Layers
-        layers.Dense(12, activation="relu", use_bias=False),
         layers.Dense(12, activation="relu", use_bias=False),
         layers.Dense(args.num_classes, activation="softmax", use_bias=False) # Output Layer
     ])
