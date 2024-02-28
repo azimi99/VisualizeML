@@ -4,7 +4,7 @@ window.onload = function () {
   num_layers = 3;
   for (let i = 0; i < num_layers; i++) {
     neurons = "";
-    for (let j = 0; j < 8; j++) {
+    for (let j = 0; j < 10; j++) {
       neurons += `<span id="n-${j}" class="dot"></span>`;
     }
 
@@ -15,128 +15,148 @@ window.onload = function () {
   }
 
   for (let i = 0; i < 10; i++) {
-    $("#output").append(`<span class="dot">${i}</span>`);
+    $("#output").append(`<span id="n-${i}" class="dot">${i}</span>`);
   }
 
-  // Handle Canvas
   var myCanvas = document.getElementById("myCanvas");
-  var ctx = myCanvas.getContext("2d");
-
-
-
-  // Mouse Event Handlers
   if (myCanvas) {
-    var isDown = false;
-    var canvasX, canvasY;
-    ctx.lineWidth = 5;
+    var ctx = myCanvas.getContext("2d");
 
-    $(myCanvas)
-      .mousedown(function (e) {
-        isDown = true;
-        ctx.beginPath();
-        canvasX = e.pageX - myCanvas.offsetLeft;
-        canvasY = e.pageY - myCanvas.offsetTop;
-        ctx.moveTo(canvasX, canvasY);
-      })
-      .mousemove(function (e) {
-        if (isDown !== false) {
-          canvasX = e.pageX - myCanvas.offsetLeft;
-          canvasY = e.pageY - myCanvas.offsetTop;
-          ctx.lineTo(canvasX, canvasY);
-          ctx.strokeStyle = "#000";
-          ctx.stroke();
-        }
-      })
-      .mouseup(function (e) {
-        isDown = false;
-        ctx.closePath();
-      });
-  }
+    // Set the entire canvas to black
+    ctx.fillStyle = "#000"; // Set fill color to black
+    ctx.fillRect(0, 0, myCanvas.width, myCanvas.height); // Fill the canvas with black
+
+    // Set drawing parameters for white lines
+    ctx.strokeStyle = "#FFF"; // Set drawing color to white
+    ctx.lineWidth = 25; // You can adjust lineWidth as needed
+    ctx.lineCap = 'round';
+
+    // Your existing mouse and touch event handlers...
 
   // Touch Events Handlers
   draw = {
     started: false,
     start: function (evt) {
-      ctx.beginPath();
-      ctx.moveTo(evt.touches[0].pageX, evt.touches[0].pageY);
-
-      this.started = true;
+        ctx.beginPath();
+        ctx.moveTo(evt.clientX, evt.clientY);
+        ctx.strokeStyle = "#FFF";
+        ctx.lineWidth = 25;
+        this.started = true;
     },
     move: function (evt) {
-      if (this.started) {
-        ctx.lineTo(evt.touches[0].pageX, evt.touches[0].pageY);
-
-        ctx.strokeStyle = "#000";
-        ctx.lineWidth = 5;
-        ctx.stroke();
-      }
+        if (this.started) {
+            ctx.lineTo(evt.clientX, evt.clientY);
+            ctx.strokeStyle = "#FFF";
+            ctx.lineWidth = 25;
+            ctx.stroke();
+        }
     },
     end: function (evt) {
-      this.started = false;
-    },
-  };
+        this.started = false;
+    }
+};
 
-  // Touch Events
-  myCanvas.addEventListener("touchstart", draw.start, false);
-  myCanvas.addEventListener("touchend", draw.end, false);
-  myCanvas.addEventListener("touchmove", draw.move, false);
+myCanvas.addEventListener('mousedown', draw.start.bind(draw));
+myCanvas.addEventListener('mousemove', draw.move.bind(draw));
+myCanvas.addEventListener('mouseup', draw.end.bind(draw));
+  }
 
-  // Disable Page Move
-  document.body.addEventListener(
-    "touchmove",
-    function (evt) {
-      evt.preventDefault();
-    },
-    false
-  );
+    function resizeCanvasImage(canvas, width, height) {
+        // Create a temporary canvas to draw the resized image
+        var tempCanvas = document.createElement('canvas');
+        var tempCtx = tempCanvas.getContext('2d');
+        tempCanvas.width = width;
+        tempCanvas.height = height;
 
-  $("#run").on("click", ()=>{
-    let c1 = document.createElement("canvas");
-    let ctx1 = c1.getContext('2d')
-    c1.width = 28
-    c1.height = 28
-    ctx1.drawImage(myCanvas, 4, 4, 20, 20);
-    // document.getElementById('img').src = c1.toDataURL();
-    // document.getElementById('c').style.display = 'none';
-    hidden = true
-  
-    var imgData = ctx1.getImageData(0, 0, 28, 28);
-    var imgBlack = []
-    for (var i = 0; i < imgData.data.length; i += 4) {
-      if (imgData.data[i + 3] === 255){
-        imgBlack.push(1)
-      }
-      else imgBlack.push(0)
+        // Draw the original canvas onto the temporary canvas with resizing
+        tempCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, width, height);
+
+        return tempCanvas;
     }
 
-    imgVector = nj.array(imgBlack);
-  
-    const layer_1_out = nj.dot(imgVector, layer_1.T)
+    function convertToGrayscale(canvas) {
+        var ctx = canvas.getContext('2d');
+        var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        var data = imageData.data;
+        
+        for (var i = 0; i < data.length; i += 4) {
+            // Convert the pixel to grayscale using luminosity method
+            var grayscale = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+            data[i] = data[i + 1] = data[i + 2] = grayscale;
+        }
 
-    // RELU activation
+        ctx.putImageData(imageData, 0, 0);
+    }
 
-    const layer_1_out_relu = layer_1_out.tolist().map(v => (v>0)? v:0);
-    console.log(layer_1_out_relu);
-    const layer_2_out = nj.dot(layer_2, nj.array(layer_1_out_relu));
-    
-    const layer_2_out_relu = layer_2_out.tolist().map(v => (v>0)? v:0);
-    console.log(layer_2_out_relu);
-    const layer_3_out = nj.dot(layer_3, nj.array(layer_2_out_relu));
-    
-    const layer_3_out_relu = layer_3_out.tolist().map(v => (v>0)? v:0);
-    console.log(layer_3_out_relu);
-    const layer_4_out = nj.dot(nj.array(layer_3_out_relu), layer_4);
-    let layer_4_softmax = nj.exp(layer_4_out);
-    // console.log(layer_4_softmax.tolist());
-    // console.log(layer_4_softmax.sum());
-    layer_4_softmax = layer_4_softmax.divide(layer_4_softmax.sum());
-    
-    layer_4_softmax = layer_4_softmax.tolist()
-    console.log(layer_4_softmax);
-    console.log(layer_4_softmax.indexOf(Math.max(...layer_4_softmax)));
-    // console.log(layer_4_out.tolist());
 
-    // console.log(dataStr)
+    function flattenImage(canvas) {
+        var ctx = canvas.getContext('2d');
+        var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        var data = imageData.data;
+        var grayscaleVector = [];
+
+        for (var i = 0; i < data.length; i += 4) {
+            grayscaleVector.push(data[i]); // Since it's grayscale, R=G=B
+        }
+
+        return grayscaleVector;
+    }
+    function normalizeVector(vector) {
+        return vector.map(value => value / 255);
+    }
+
+    function delay(time) {
+        return new Promise(resolve => setTimeout(resolve, time));
+    }
+
+    function animate_layer(layer_num, layer_output){
+        for (let i = 0; i < layer_output.length; i++){
+            if (layer_output[i] > 0) {
+                $(`#layer_${layer_num} > #n-${i}`).css('background-color', 'black');
+                $(`#layer_${layer_num} > #n-${i}`).css('color', 'white');
+                // $(`#layer_${layer_num} > #n-${i}`).append('', `${layer_output[i]}`);
+
+            }     
+        } 
+    }
+
+
+
+  $("#run").on("click", async ()=>{
+    var resizedCanvas = resizeCanvasImage(myCanvas, 28, 28);
+    convertToGrayscale(resizedCanvas);
+    var flattenedVector = flattenImage(resizedCanvas);
+    var normalizedVector = normalizeVector(flattenedVector);
+
+    imgVector = nj.array(normalizedVector);
+    let layer_1_out = nj.dot(layer_1.T, imgVector);
+    layer_1_out = nj.array(layer_1_out.tolist().map(v => (v > 0.0)? v:0.0)); // ReLU
+    console.log(layer_1_out.tolist());
+    // Animate Neurons For Layer 1
+    animate_layer(0, layer_1_out.tolist());
+    await delay(500);
+    let layer_2_out = nj.dot(layer_2.T, layer_1_out);
+    layer_2_out = nj.array(layer_2_out.tolist().map(v => (v > 0.0)? v:0.0));// ReLU
+    console.log(layer_2_out.tolist());
+    // Animate Neurons For layer 2
+    animate_layer(1, layer_2_out.tolist());
+    await delay(500);
+    let layer_3_out = nj.dot(layer_3.T, layer_2_out);
+    layer_3_out = nj.array(layer_3_out.tolist().map(v => (v > 0.0)? v:0.0)); // ReLU
+    console.log(layer_3_out.tolist());
+    // Animate Neurons for layer 3
+    animate_layer(2, layer_3_out.tolist());
+    await delay(500);
+    let layer_4_out = nj.dot(layer_4.T, layer_3_out);
+    layer_4_out = nj.exp(layer_4_out);
+    layer_4_out = layer_4_out.divide(layer_4_out.sum());
+    layer_4_out = layer_4_out.tolist();
+    console.log(layer_4_out);
+    let maxVal = layer_4_out.reduce((maxIndex, currentElement, currentIndex, layer_4_out) => 
+    currentElement > layer_4_out[maxIndex] ? currentIndex : maxIndex, 0);
+
+    $(`#output > #n-${maxVal}`).css('background-color', 'black');
+    $(`#output > #n-${maxVal}`).css('color', 'white');
 
   });
 

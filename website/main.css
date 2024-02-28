@@ -1,6 +1,6 @@
 .dot {
-    height: 25px;
-    width: 25px;
+    height: 45px;
+    width: 45px;
     background-color: #bbb;
     border-radius: 50%;
     display: block;
@@ -11,8 +11,8 @@
    display: inline-block; 
 }
 .output .dot {
-    height: 45px;
-    width: 45px;
+    height: 65px;
+    width: 65px;
     background-color: #bbb;
     border-radius: 50%;
     display: block;
@@ -34,7 +34,7 @@ body, html {
 
 
 #myCanvas {
-	cursor: crosshair;
+	/* cursor: crosshair; */
     display: inline;
     border: solid 1px black
 }
