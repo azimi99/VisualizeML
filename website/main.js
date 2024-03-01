@@ -132,19 +132,16 @@ myCanvas.addEventListener('mouseup', draw.end.bind(draw));
     imgVector = nj.array(normalizedVector);
     let layer_1_out = nj.dot(layer_1.T, imgVector);
     layer_1_out = nj.array(layer_1_out.tolist().map(v => (v > 0.0)? v:0.0)); // ReLU
-    console.log(layer_1_out.tolist());
     // Animate Neurons For Layer 1
     await animate_layer(0, layer_1_out.tolist());
     await delay(500);
     let layer_2_out = nj.dot(layer_2.T, layer_1_out);
     layer_2_out = nj.array(layer_2_out.tolist().map(v => (v > 0.0)? v:0.0));// ReLU
-    console.log(layer_2_out.tolist());
     // Animate Neurons For layer 2
     await animate_layer(1, layer_2_out.tolist());
     await delay(500);
     let layer_3_out = nj.dot(layer_3.T, layer_2_out);
     layer_3_out = nj.array(layer_3_out.tolist().map(v => (v > 0.0)? v:0.0)); // ReLU
-    console.log(layer_3_out.tolist());
     // Animate Neurons for layer 3
     await animate_layer(2, layer_3_out.tolist());
     await delay(500);
@@ -152,7 +149,6 @@ myCanvas.addEventListener('mouseup', draw.end.bind(draw));
     layer_4_out = nj.exp(layer_4_out);
     layer_4_out = layer_4_out.divide(layer_4_out.sum());
     layer_4_out = layer_4_out.tolist();
-    console.log(layer_4_out);
     let maxVal = layer_4_out.reduce((maxIndex, currentElement, currentIndex, layer_4_out) => 
     currentElement > layer_4_out[maxIndex] ? currentIndex : maxIndex, 0);
 
