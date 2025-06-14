@@ -21,6 +21,13 @@ window.onload = function () {
   var myCanvas = document.getElementById("myCanvas");
   if (myCanvas) {
     var ctx = myCanvas.getContext("2d");
+    function getPos(evt){
+        var rect = myCanvas.getBoundingClientRect();
+        return {
+            x: evt.clientX - rect.left,
+            y: evt.clientY - rect.top
+        };
+    }
 
     // Set the entire canvas to black
     ctx.fillStyle = "#000"; // Set fill color to black
@@ -37,15 +44,17 @@ window.onload = function () {
   draw = {
     started: false,
     start: function (evt) {
+        var pos = getPos(evt);
         ctx.beginPath();
-        ctx.moveTo(evt.clientX, evt.clientY);
+        ctx.moveTo(pos.x, pos.y);
         ctx.strokeStyle = "#FFF";
         ctx.lineWidth = 25;
         this.started = true;
     },
     move: function (evt) {
         if (this.started) {
-            ctx.lineTo(evt.clientX, evt.clientY);
+            var pos = getPos(evt);
+            ctx.lineTo(pos.x, pos.y);
             ctx.strokeStyle = "#FFF";
             ctx.lineWidth = 25;
             ctx.stroke();
@@ -63,7 +72,7 @@ myCanvas.addEventListener('mouseup', draw.end.bind(draw));
   $("#clear").on("click", function(){
     ctx.fillStyle = "#000";
     ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
-    $(".dot").css({"background-color": "#bbb", "color": "black"});
+    $(".dot").css({"background-color": "#444", "color": "black"});
   });
   }
 

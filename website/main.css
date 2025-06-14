@@ -1,19 +1,19 @@
 .dot {
     height: 45px;
     width: 45px;
-    background-color: #bbb;
+    background-color: #444;
     border-radius: 50%;
     display: block;
     margin: 15px;
 }
 
 .hidden {
-   display: inline-block; 
+   display: inline-block;
 }
 .output .dot {
     height: 65px;
     width: 65px;
-    background-color: #bbb;
+    background-color: #444;
     border-radius: 50%;
     display: block;
     margin: 15px;
@@ -26,17 +26,29 @@
     margin-bottom: 80px;
 }
 
-
-
 body, html {
     height: 100%;
+    margin: 0;
     font-family: Arial, sans-serif;
     text-align: center;
     padding-top: 20px;
+    background-color: #121212;
+    color: #eaeaea;
+}
+
+nav, footer {
+    background-color: #1e1e1e;
+    color: #eaeaea;
+    padding: 10px 20px;
+}
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
 #input-layer {
-    margin-bottom: 30px;
+    margin: 30px auto;
 }
 
 .controls button {
@@ -44,9 +56,8 @@ body, html {
     padding: 8px 12px;
 }
 
-
 #myCanvas {
-	/* cursor: crosshair; */
+    cursor: crosshair;
     display: inline;
-    border: solid 1px black
+    border: solid 1px #555;
 }
