@@ -59,6 +59,12 @@ window.onload = function () {
 myCanvas.addEventListener('mousedown', draw.start.bind(draw));
 myCanvas.addEventListener('mousemove', draw.move.bind(draw));
 myCanvas.addEventListener('mouseup', draw.end.bind(draw));
+
+  $("#clear").on("click", function(){
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
+    $(".dot").css({"background-color": "#bbb", "color": "black"});
+  });
   }
 
     function resizeCanvasImage(canvas, width, height) {
