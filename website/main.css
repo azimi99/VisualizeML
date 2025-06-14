@@ -48,7 +48,19 @@ footer {
 }
 
 #input-layer {
-    margin: 30px auto;
+    margin: 30px;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#nn {
+    margin-left: 30px;
+    transform: scale(0.7);
+    transform-origin: top left;
 }
 
 .controls button {
