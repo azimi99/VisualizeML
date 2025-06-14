@@ -72,7 +72,7 @@ myCanvas.addEventListener('mouseup', draw.end.bind(draw));
   $("#clear").on("click", function(){
     ctx.fillStyle = "#000";
     ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
-    $(".dot").css({"background-color": "#444", "color": "black"});
+    $(".dot").css({"background-color": "#bbb", "color": "black"});
   });
   }
 
